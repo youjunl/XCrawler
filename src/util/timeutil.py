@@ -4,17 +4,15 @@ import schedule
 import time
 import ntplib
 from pandas.tseries.offsets import BDay
-from workalendar.asia import China
-
+#from workalendar.asia import China
+from chinese_calendar import is_holiday
 
 # 将日期调整到最近的工作日
 def adjust_date_to_weekday(date):
-    cal = China()
-    print(cal)
+    # cal = China()
+    # print(cal)
     # 如果提供的日期是周末或者节假日，将其调整为最近的工作日
-    while date.weekday() > 4 or cal.is_holiday(
-        date
-    ):  # 0 = Monday, 1=Tuesday, 2=Wednesday...
+    while date.weekday() > 4 or is_holiday(date):  # 0 = Monday, 1=Tuesday, 2=Wednesday...
         date -= timedelta(days=1)  # 减去一天
     return date
 

@@ -259,6 +259,7 @@ def getStocksTime(stockNum, now, enginstr):
     if url == "":
         print(f"{stockNum} ETF基金暂不支持")
         return
+    print(url)
     # url = f"http://quote.eastmoney.com/sh{stockNum}.html"
     # while True:
     get_stock_data(stockNum, driver, url, now, enginstr)

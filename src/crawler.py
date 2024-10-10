@@ -8,7 +8,7 @@ import datetime
 import src.cProfile_test
 import src.util.infoutil as info
 
-enginstr = "mysql+pymysql://gxm:password@localhost:3306/stock"
+enginstr = "mysql+pymysql://admin:Sybz452731@192.168.200.118:3306/xcrawler"
 stocks = ["300552", "300496", "000628","603019","000911"]  # "300552", "300496", "000628",
 done = threading.Event()
 

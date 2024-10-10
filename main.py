@@ -13,7 +13,7 @@ import numpy as np
 from datetime import datetime
 import notification.pushover as pushover
 
-key="u8hxscv479iru5gwgtu3825jjmwg4o"
+key="u1o76cmamcjd3667t49tuvoyy3y42h" # Pushover API Key
 token="ajo4nyx5miu8syjn8dxp67rtm84rk5"
 notification = pushover.send_pushover_notification
 

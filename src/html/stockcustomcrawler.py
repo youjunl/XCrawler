@@ -125,7 +125,7 @@ def getStockData_efinance(stockNum, now, start,end, enginstr, check, ma=5):
 
 # pandas_datareader通过yahoo获取股票数据
 def getStockData_datareader(stockNum, now, start, enginstr, check, ma=5):
-    yf.pdr_override()
+    #yf.pdr_override()
     if start is not None:
         start_date = start
     else:
@@ -137,7 +137,9 @@ def getStockData_datareader(stockNum, now, start, enginstr, check, ma=5):
     print(f"调整后的日期{adjusted_date}")
     # 格式化日期
     end_date = adjusted_date.strftime("%Y-%m-%d")  # 假设需要的格式为 "YYYY-MM-DD"
-    stockData = pdr.get_data_yahoo(code, start_date, end_date)
+    #stockData = pdr.get_data_yahoo(code, start_date, end_date)
+    stockData = yf.download(code, start_date, end_date)
+    print(stockData)
     stockData = stockData.round(2)
     stockData.to_csv("Assets/" + code + ".csv")
     stockData.to_excel("Assets/" + code + ".xlsx")
