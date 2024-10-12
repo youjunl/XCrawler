@@ -12,33 +12,39 @@ import talib
 import numpy as np
 from datetime import datetime
 import notification.pushover as pushover
+import json
 
 key="u1o76cmamcjd3667t49tuvoyy3y42h" # Pushover API Key
 token="ajo4nyx5miu8syjn8dxp67rtm84rk5"
 notification = pushover.send_pushover_notification
-
+enginstr = ""
 def main():
     app = QApplication(sys.argv)
     path = os.path.join(
         os.path.dirname(sys.modules[__name__].__file__), "./Assets/bullmarket.jpg"
     )
     app.setWindowIcon(QIcon(path))
+
     # 读取本地账号密码
-    with open("./Assets/password.txt", "r") as file:
-        lines = file.readlines()
-    # 解析键值对
     credentials = {}
-    for line in lines:
-        key, value = line.strip().split(":")
-        credentials[key] = value
+
+    with open("./Assets/password.json", "r") as file:
+        credentials = json.load(file)
+        host=credentials["host"]
+        port=credentials["port"]
+        user=credentials["user"]
+        password=credentials["password"]
+        db=credentials["db"]
+    enginstr = "mysql+pymysql://{}:{}@{}:{}/{}".format(user, password, host, port, db)
     # 启动数据库
-    conn = pymysql.connect(
-        host=credentials.get("host"),
-        user=credentials.get("user"),
-        password=credentials.get("password"),
-        db=credentials.get("db"),
-        charset="utf8",
-    )
+    # conn = pymysql.connect(
+    #     host=host,
+    #     port=port,
+    #     user=user,
+    #     password=password,
+    #     db=db,
+    #     charset="utf8",
+    # )
 
     window = Window()
     window.show()
@@ -49,6 +55,9 @@ def main():
 
 
 class Window(QWidget):
+    def __init__(self):
+        self.enginestr = enginstr
+
     def button_clicked(self):
         src.start(key,token,notification)
 
@@ -96,8 +105,6 @@ class Window(QWidget):
         self.setStyleSheet("background-color:green")  # 设置窗口内背景颜色
         layout = QtWidgets.QVBoxLayout()
         # self.setWindowOpacity(0.5)  # 设置窗口透明度
-        # self.setFixedWidth(700)  # 不生效，被禁用了
-        # self.setFixedHeight(400)  # 不生效，被禁用了
         self.ui()
         # ============== 第一排按钮
         # 爬取数据按钮

@@ -156,8 +156,6 @@ def getStockData_datareader(stockNum, now, start, enginstr, check, ma=5):
     # print(stockData.index[0])
     # 结束时间
     # print(stockData.index[-1])
-    # 已mysql为例,如果已localhost为host,那port端口一般为3306
-    # enginstr = "mysql+pymysql://root:Akeboshi123~@localhost:3306/stockData"
     name = data_processor.GetDataFromSql("代码库", "代码", "名称", stockNum, enginstr)
     if name == "":
         html.getStocksTime(stockNum, now, enginstr)

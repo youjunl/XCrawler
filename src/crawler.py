@@ -7,8 +7,19 @@ import threading
 import datetime
 import src.cProfile_test
 import src.util.infoutil as info
+import json
 
-enginstr = "mysql+pymysql://admin:Sybz452731@192.168.200.118:3306/xcrawler"
+# 读取本地账号密码
+enginstr = ""
+with open("./Assets/password.json", "r") as file:
+    credentials = json.load(file)
+    host=credentials["host"]
+    port=credentials["port"]
+    user=credentials["user"]
+    password=credentials["password"]
+    db=credentials["db"]
+enginstr = "mysql+pymysql://{}:{}@{}:{}/{}".format(user, password, host, port, db)
+
 stocks = ["300552", "300496", "000628","603019","000911"]  # "300552", "300496", "000628",
 done = threading.Event()
 
@@ -35,7 +46,7 @@ def run_stock_process(target, stocks, now, enginStr, start=None, check=None, ma=
         _p.close()
 
 
-def _runProcess(key,token,pushover,check, _stocks, ma, start):
+def _runProcess(key, token, pushover, check, _stocks, ma, start):
     now = datetime.datetime.now()
     # 收盘时间
     target_time1 = datetime.time(11, 30)
@@ -274,7 +285,7 @@ def find(stockNum, ma=5):
 
 
 def showStockData(stockNum):
-    html.showStockData(stockNum, enginstr)
+    html.showStockData(stockNum)
 
 
 def check(key,token,pushover,customstocks=None, ma=5, start=None):

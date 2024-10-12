@@ -118,7 +118,7 @@ def startQuantifytest(stockNum, now, start, enginstr, end="", ma=20):
     ma40 = stock_instance.getMA(40)
     ma60 = stock_instance.getMA(60)
 
-    df = stock_instance.calculate_kdj()
+    kdj = stock_instance.calculate_kdj()
 
     weekClose = stock_instance.get_weekClose
     mouthClose = stock_instance.get_mouthClose
@@ -141,6 +141,7 @@ def startQuantifytest(stockNum, now, start, enginstr, end="", ma=20):
     
     df = stock_instance.checkDetermineEntryExit()
     print(f"{df},是否存在主力进场")
+
     # if buy_short is False:
     #     print("非短期买入区间")
     # else:
@@ -155,6 +156,7 @@ def startQuantifytest(stockNum, now, start, enginstr, end="", ma=20):
     #     print("非买入区间")
     # else:
     #     print("可买入区间")
+
     weekly_close = ma5
     monthly_close = ma30
     weekly_macd, weekly_signal, weekly_hist = ta.MACD(
@@ -232,9 +234,9 @@ def startQuantifytest(stockNum, now, start, enginstr, end="", ma=20):
 
     # 绘制KDJ图表
     plt.figure(figsize=(10, 6))
-    plt.plot(df.index, df["k"], label="K")
-    plt.plot(df.index, df["d"], label="D")
-    plt.plot(df.index, df["j"], label="J")
+    plt.plot(kdj.index, kdj["k"], label="K")
+    plt.plot(kdj.index, kdj["d"], label="D")
+    plt.plot(kdj.index, kdj["j"], label="J")
     plt.legend()
     plt.xlabel("Date")
     plt.ylabel("Value")
