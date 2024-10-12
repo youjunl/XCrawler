@@ -11,6 +11,18 @@ from src.util.timeutil import *
 import datetime
 import src.data_processor as data_processor
 from typing import Dict
+import json
+
+# 读取本地账号密码
+enginstr = ""
+with open("./Assets/password.json", "r") as file:
+    credentials = json.load(file)
+    host=credentials["host"]
+    port=credentials["port"]
+    user=credentials["user"]
+    password=credentials["password"]
+    db=credentials["db"]
+enginstr = "mysql+pymysql://{}:{}@{}:{}/{}".format(user, password, host, port, db)
 
 # 第三方tushare获取股票数据
 def getStockData(stockNum):
@@ -97,19 +109,19 @@ def getStockDatas_Minutes_Advanced(stockNums, freq = 1):
     print('全部股票已收盘')
     
 
-def showStockData(stockNum, enginstr):
+def showStockData(stockNum):
     now = datetime.datetime.now()
     # 格式化为字符串
     formatted = now.strftime("%Y-%m-%d")
     name = f"{formatted}-allstock"
-    data = data_processor.GetDatasFromSql1(name, "代码", stockNum, enginstr)
+    data = data_processor.GetDatasFromSql1(name, "代码", stockNum, enginestr=enginstr)
     if data is None:
         print(f"{formatted} table is not exist")
     else:
         print(data)
 
 # pandas_datareader通过efinance获取股票数据
-def getStockData_efinance(stockNum, now, start,end, enginstr, check, ma=5):
+def getStockData_efinance(stockNum, now, start,end, check, ma=5):
     # 获取今天的日期
     today = datetime.datetime.today().date()
     adjusted_date = adjust_date_to_weekday(today)

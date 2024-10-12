@@ -2,7 +2,18 @@ import pandas as pd
 from sqlalchemy import create_engine, inspect
 from datetime import datetime
 import time
+import json
 
+# 读取本地账号密码
+enginstr = ""
+with open("./Assets/password.json", "r") as file:
+    credentials = json.load(file)
+    host=credentials["host"]
+    port=credentials["port"]
+    user=credentials["user"]
+    password=credentials["password"]
+    db=credentials["db"]
+enginstr = "mysql+pymysql://{}:{}@{}:{}/{}".format(user, password, host, port, db)
 
 def checkTableExist(table, engine, enginestr):
     inspector = inspect(engine)
